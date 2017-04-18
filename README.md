@@ -4,9 +4,14 @@
 
 #### Создание объекта класса.
 ```
-XmlExport = TXmlExport.Create(Database); // где Database объект TFDConnection
-XmlExport.Xml = Xml; // Xml-шаблон выгрузки, принимает String;
-XmlExport.Sql = Sql; // Sql-запрос, по которому будет формироваться набор данных для выгрузки
+...
+var
+  XmlExport: TXmlExport;
+begin
+  XmlExport = TXmlExport.Create(Database); // где Database объект TFDConnection
+  XmlExport.Xml = Xml; // Xml-шаблон выгрузки, принимает String;
+  XmlExport.Sql = Sql; // Sql-запрос, по которому будет формироваться набор данных для выгрузки
+end;
 ```
 Класс унаследован от TThread и является Suspended, поэтому, после создания экземпляра класса, нужно вызвать метод Run для запуска потока.
 
