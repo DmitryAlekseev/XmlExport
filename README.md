@@ -15,8 +15,8 @@ XmlExport := TXmlExport.Create(FDConnection);
 ## Обязательные параметры.
 ```delphi
 ...
-XmlExport.Xml := '<?xml version="1.0"?><somenodes><node>some text</node></somenodes>'; // xml-шаблон
-XmlExport.Sql := 'select FIELD from TABLE'; // sql-запрос
+XmlExport.Xml := '<?xml version="1.0"?><somenodes><node>some text</node></somenodes>';
+XmlExport.Sql := 'select FIELD from TABLE'; 
 ...
 ```
 ## Необязательные параметры
@@ -33,10 +33,16 @@ XmlExport.Sql := 'select FIELD from TABLE'; // sql-запрос
 * `XmlExport.OnProgressMax` - передает максимальное кол-во записей набора данных.
 * `XmlExport.OnProgressText` - передает информационные сообщения, возникающие в процессе выгрузки.
 
+## Запуск.
+```delphi
+...
+XmlExport.Run;
+...
+```
 
 ## Пример.
 
-Имеется таблица CUSTOMERS:
+Имеется таблица CUSTOMERS. Необходимо выгрузить всех клиентов, с группировкой в полу, в качестве имен файлов должны быть имена клиентов.
 
 ID  | GENDER | NAME
 ----|--------|---------
@@ -44,32 +50,43 @@ ID  | GENDER | NAME
 2   | МУЖ    | Петров
 3   | ЖЕН    | Кузьмина
 
-SQL-запрос:
-```sql
-select ID, GENDER, NAME from CUSTOMERS
+
+```delphi
+...
+var
+  XmlExport: TXmlExport;
+begin
+  XmlExport := TXmlExport.Create(Database);
+  XmlExport.Xml := '<?xml version="1.0"?><customers id="ID"><name>NAME</name></customers>';
+  XmlExport.Sql := 'select ID, GENDER, NAME from CUSTOMERS'; 
+  XmlExport.Directory := 'C:\exports';
+  XmlExport.GroupingField := 'GENDER';
+  XmlExport.FilenameField := 'NAME';
+  XmlExport.Run;
+end;
+...
 ```
+Результатом выгрузки, в данном случае, будут 3 файла, в соответствующих каталогах:
 
-XML-шаблон, для такого запроса, будет следующего вида:
-```xml
-<?xml version="1.0" ?>
-<customers id="ID">
-  <name>NAME</name>
-</customers>
-```
-
-Результатом выгрузки, в данном случае, будет 2 файла:
-
-**1.xml**
+*C:\exports\GENDER_МУЖ\Иванов.xml*
 ```xml
 <?xml version="1.0" ?>
 <customers id="1">
   <name>Иванов</name>
 </customers>
 ```
-**2.xml**
+*C:\exports\GENDER_МУЖ\Петров.xml*
 ```xml
 <?xml version="1.0" ?>
 <customers id="2">
   <name>Петров</name>
 </customers>
 ```
+*C:\exports\GENDER_ЖЕН\Кузьмина.xml*
+```xml
+<?xml version="1.0" ?>
+<customers id="3">
+  <name>Кузьмина</name>
+</customers>
+```
+
