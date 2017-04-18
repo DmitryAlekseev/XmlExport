@@ -27,10 +27,12 @@ XmlExport.Sql := 'select FIELD from TABLE'; // sql-запрос
 * `XmlExport.DeleteEmptyNodes` - Boolean - удаление пустых элементов из файлов.
 * `XmlExport.OpenDirectory` - Boolean - открывать корневой каталог выгрузки после завершения.
 
-## Отображение процесса выгрузки.
-* `XmlExport.OnProgressValue` - передается RecNo текущей записи, обрабатываемой записи.
-* `XmlExport.OnProgressMax` - передается максимальное кол-во записей из набора данных.
-* `XmlExport.OnProgressText` - передаются информационные сообщения, возникающие в процессе выгрузки.
+## Обработчики событий.
+* `XmlExport.OnActive` - передает статус выгрузки.
+* `XmlExport.OnProgressValue` - передает RecNo текущей, обрабатываемой.
+* `XmlExport.OnProgressMax` - передает максимальное кол-во записей набора данных.
+* `XmlExport.OnProgressText` - передает информационные сообщения, возникающие в процессе выгрузки.
+
 
 ## Пример.
 
